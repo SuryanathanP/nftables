@@ -119,6 +119,7 @@ type MonitorEvent struct {
 	Type  MonitorEventType
 	Data  any
 	Error error
+	PID   uint32
 }
 
 const (
@@ -224,6 +225,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  table,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			case unix.NFT_MSG_NEWCHAIN, unix.NFT_MSG_DELCHAIN:
@@ -232,6 +234,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  chain,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			case unix.NFT_MSG_NEWRULE, unix.NFT_MSG_DELRULE:
@@ -240,6 +243,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  rule,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			case unix.NFT_MSG_NEWSET, unix.NFT_MSG_DELSET:
@@ -248,6 +252,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  set,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			case unix.NFT_MSG_NEWSETELEM, unix.NFT_MSG_DELSETELEM:
@@ -256,6 +261,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  elems,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			case unix.NFT_MSG_NEWOBJ, unix.NFT_MSG_DELOBJ:
@@ -264,6 +270,7 @@ func (monitor *Monitor) monitor() {
 					Type:  MonitorEventType(msgType),
 					Data:  obj,
 					Error: err,
+					PID:   msg.Header.PID,
 				}
 				monitor.eventCh <- event
 			}
